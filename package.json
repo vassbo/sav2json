@@ -1,0 +1,17 @@
+{
+    "name": "sav2json",
+    "version": "1.0.0",
+    "description": "Satisfactory .sav file to JSON converter",
+    "main": "dist/index.js",
+    "type": "module",
+    "scripts": {
+        "test": "node dist/tests/node.js",
+        "build": "tsc && node add-js-extension.js && node copy-lib.js"
+    },
+    "author": "vassbo",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/node": "^22.10.5",
+        "typescript": "^5.7.3"
+    }
+}

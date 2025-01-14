@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Test upload</title>
+
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"
+            integrity="sha512-g2TeAWw5GPnX7z0Kn8nFbYfeHcvAu/tx6d6mrLe/90mkCxO+RcptyYpksUz35EO337F83bZwcmUyHiHamspkfg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+    </head>
+    <body>
+        <div class="upload">
+            <label for="savinput">Select a file:</label>
+            <input id="savinput" type="file" name="savinput" accept=".sav" />
+        </div>
+
+        <script type="importmap">
+            {
+                "imports": {
+                    "sav2json": "../dist/index.js"
+                }
+            }
+        </script>
+        <script type="module">
+            import parseFile from "sav2json"
+
+            document.getElementById("savinput").addEventListener("change", readFile)
+
+            async function readFile(e) {
+                const file = e.target.files[0]
+
+                const name = file.name.split("_")[0]
+                console.log("Selected world save:", name)
+
+                const reader = new FileReader()
+                reader.onload = (e) => {
+                    const buffer = new Uint8Array(e.target.result)
+                    parse(buffer)
+                }
+                reader.readAsArrayBuffer(file)
+            }
+
+            async function parse(buffer) {
+                const json = await parseFile(buffer)
+                console.log(json)
+            }
+        </script>
+    </body>
+</html>
