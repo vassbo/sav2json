@@ -67,7 +67,9 @@ export function decodeObjects(BUFFER: Buffer | Uint8Array, OFFSET: number, count
 
         /// VALIDATE ///
         if (trailingBytes !== decodedBytes.bytes) {
-            throw new Error(unmatchingSize("Bytes", trailingBytes, decodedBytes.bytes) + `: ${header.typePath}`)
+            // this will fix some unmatching cases with ItemPickup/Explorer
+            if (trailingBytes === 8 && decodedBytes.bytes === 4) OFFSET += 4
+            else throw new Error(unmatchingSize("Bytes", trailingBytes, decodedBytes.bytes) + `: ${header.typePath}`)
         }
 
         objectArray.push(object)
